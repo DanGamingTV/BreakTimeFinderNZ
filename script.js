@@ -1,7 +1,40 @@
+document.getElementById('breakForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Get input values
+    const startTime = document.getElementById('startTime').value;
+    const endTime = document.getElementById('endTime').value;
+
+    if (!startTime || !endTime) {
+        alert("Please provide both start and end times.");
+        return;
+    }
+
+    // Convert input times to Date objects for calculation
+    const startDate = new Date(`1970-01-01T${startTime}:00`);
+    const endDate = new Date(`1970-01-01T${endTime}:00`);
+
+    // Calculate the shift duration in minutes
+    let shiftDuration = (endDate - startDate) / (1000 * 60); // in minutes
+
+    // Handle overnight shifts
+    if (shiftDuration < 0) {
+        shiftDuration += 24 * 60; // Add 24 hours in minutes
+    }
+
+    // Determine the break times based on the shift duration
+    const breakDetails = calculateBreaks(startDate, endDate);
+
+    // Display the break details
+    displayResults(breakDetails);
+});
+
 function calculateBreaks(shiftStartTime, shiftEndTime) {
     // Convert shift start and end time into minutes since midnight
-    const shiftStart = new Date(shiftStartTime);
-    const shiftEnd = new Date(shiftEndTime);
+    // const shiftStart = new Date(shiftStartTime);
+    // const shiftEnd = new Date(shiftEndTime);
+    const shiftStart = shiftStartTime;
+    const shiftEnd = shiftEndTime;
     const shiftDurationMins = (shiftEnd - shiftStart) / 60000; // in minutes
     const shiftDurationMs = (shiftEnd - shiftStart);
     const restBreakDurationMins = 10;
@@ -161,8 +194,32 @@ function calculateBreaks(shiftStartTime, shiftEndTime) {
     return breaks;
 }
 
-// Example usage:
-let breakTimes = calculateBreaks("2024-11-26T15:00:00", "2024-11-26T21:15:00");
-breakTimes.forEach(breakInfo => {
-    console.log(`${breakInfo.breakType} starts at ${breakInfo.breakStart} and ends at ${breakInfo.breakEnd}`);
-});
+function dateTo12Hr(dateObject) { 
+    return dateObject.toLocaleTimeString([], { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        hour12: true // Ensure 12-hour format
+    });
+}
+
+function displayResults(breakDetails) {
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = ''; // Clear previous results
+
+    if (breakDetails.length === 0) {
+        resultsDiv.innerHTML = "<p>No breaks are required for this shift.</p>";
+    } else {
+        breakDetails.forEach(breakItem => {
+            const p = document.createElement('p');
+            p.classList.add('result-item');
+            p.textContent = `${breakItem.breakType} starts at ${dateTo12Hr(breakItem.breakStart)} and ends at ${dateTo12Hr(breakItem.breakEnd)}`;
+            resultsDiv.appendChild(p);
+        });
+    }
+}
+
+// // Example usage:
+// let breakTimes = calculateBreaks("2024-11-26T15:00:00", "2024-11-26T21:15:00");
+// breakTimes.forEach(breakInfo => {
+//     console.log(`${breakInfo.breakType} starts at ${breakInfo.breakStart} and ends at ${breakInfo.breakEnd}`);
+// });
