@@ -6,29 +6,27 @@ function calculateBreaks(shiftStartTime, shiftEndTime) {
     
     let breaks = [];
     
-    if (shiftDuration >= 120 && shiftDuration <= 240) {
-        // 2-4 hours worked: 1 x 10-minute paid rest break in the middle
-        let middle = shiftStart.getTime() + shiftDuration * 30 * 60000; // middle of work period
-        let restBreakStart = new Date(middle - 5 * 60000); // Start break 5 minutes before middle
-        let restBreakEnd = new Date(restBreakStart.getTime() + 10 * 60000); // 10-minute break
+    // Corrected if condition for 6-10 hour shifts (360 minutes to 600 minutes)
+    if (shiftDuration > 360 && shiftDuration < 600) {
+        // Total work time excluding breaks (subtract 30 minutes for meal break)
+        let totalWorkTime = shiftDuration - 30; // Subtract 30 minutes for the meal break
         
-        breaks.push({
-            breakType: "Paid Rest Break",
-            breakStart: restBreakStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            breakEnd: restBreakEnd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        });
+        // Meal break placement: In the middle of the work period
+        let eitherSideOfBreak = (shiftDuration - 30) / 2;
+        let mealBreakStart = new Date(shiftStart.getTime()  + (eitherSideOfBreak) * 60000);
+        let mealBreakEnd = new Date(shiftStart.getTime()  + (eitherSideOfBreak + 30) * 60000);
         
-    } else if (shiftDuration > 360   && shiftDuration <= 600) {
-        // More than 6 hours, but no more than 10 hours worked
-        let mealBreakStart = new Date(shiftStart.getTime() + (shiftDuration - 30) * 30 * 60000); // Meal break at one-third of work time
-        let mealBreakEnd = new Date(mealBreakStart.getTime() + 30 * 60000); // 30-minute meal break
+        // First 10-minute rest break: Halfway between start and meal break
+        eitherSideOfBreak = (mealBreakStart.getTime() - shiftStart.getTime() - (10 * 60000)) / 60000 /* ms to mins */ / 2;
+        let firstRestBreakStart = new Date(shiftStart.getTime() + (eitherSideOfBreak) * 60000);
+        let firstRestBreakEnd = new Date(shiftStart.getTime() + (eitherSideOfBreak + 10) * 60000);
         
-        let firstRestBreakStart = new Date(shiftStart.getTime() + 115 * 60000); // First rest break halfway between start and meal break
-        let firstRestBreakEnd = new Date(firstRestBreakStart.getTime() + 10 * 60000); // 10-minute break
+        // Second 10-minute rest break: Halfway between meal break and end of shift
+        eitherSideOfBreak = (shiftEnd.getTime() - mealBreakEnd.getTime() - (10 * 60000)) / 60000 /* ms to mins */ / 2;
+        let secondRestBreakStart = new Date(mealBreakEnd.getTime() + (eitherSideOfBreak) * 60000);
+        let secondRestBreakEnd = new Date(mealBreakEnd.getTime() + (eitherSideOfBreak + 10) * 60000);
         
-        let secondRestBreakStart = new Date(mealBreakEnd.getTime() + 115 * 60000); // Second rest break halfway between meal break and end
-        let secondRestBreakEnd = new Date(secondRestBreakStart.getTime() + 10 * 60000); // 10-minute break
-        
+        // Push the breaks to the array in the correct order
         breaks.push({
             breakType: "Paid Rest Break",
             breakStart: firstRestBreakStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
