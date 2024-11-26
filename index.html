@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Break Entitlement Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Employee Break Entitlement Calculator</h1>
+        
+        <form id="breakForm">
+            <label for="startTime">Shift Start Time (HH:MM):</label>
+            <input type="time" id="startTime" required>
+
+            <label for="endTime">Shift End Time (HH:MM):</label>
+            <input type="time" id="endTime" required>
+
+            <button type="submit">Calculate Breaks</button>
+        </form>
+
+        <div id="results">
+            <!-- Results will be displayed here -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
