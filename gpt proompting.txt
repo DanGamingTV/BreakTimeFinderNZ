@@ -1,0 +1,25 @@
+Okay. I then tried the code with a shift between 8:00 am and 4:30 pm.
+The results were:
+Paid Rest Break starts at 12:00 and ends at 12:10
+
+Unpaid Meal Break starts at 11:45 and ends at 12:15
+
+Paid Rest Break starts at 12:45 and ends at 12:55
+
+However, I calculated this out based on the rules given and found that the real break times should have been different. The official rules say:
+////
+More than 6 hours, but less than 10 hours worked:
+
+    1 x 10-minute paid rest break
+    Halfway between the start of work and the meal break
+    1 x 30-minute unpaid meal break
+    In the middle of the work period
+    1 x 10-minute paid rest break
+    Halfway between the meal break and the finish of the work period
+////
+
+First let's figure out the time for the 30 minute break. The work period is 8.5 hours long, or 510 minutes long. Subtracting the length of the 30 minute break, that gives us 480 minutes. Dividing 480 by 2 gives us 240 minutes either side of the break. So the 30 minute break should start 240 minutes after the shift started, and should end 240 minutes before the shift ends (or should end (240+30)=270 minutes after the shift starts). 8:00 am plus 240 minutes is 12:00 pm. 4:30 pm minus 240 minutes is 12:30 pm. Cool. So the 30 minute break starts at 12:00pm and ends at 12:30pm.
+
+Now ill figure out the first 10 minute break. The website says it should be halfway between the start of work and the meal break. Start of work is 08:00 am. Meal break is 12:00pm. That's 4 hours, or 240 minutes. Subtracting 10 minutes from 240 minutes gives us 230 minutes of work time. Dividing 230 by 2 gives us 115 minutes either side of the 10 minute break. That means that the 10-minute break start 115 minutes after the start of the shift, and ends 115 minutes before the 30-minute break starts (or ends (115+10)= 125 minutes after the shift starts). 08:00 am plus 115 minutes is 09:55 am. 12:00pm minus 115 minutes is 10:05 am. So the first 10-minute break starts at 09:55 am and ends at 10:05 am. Cool.
+
+Now ill figure out the second 10-minute break. The website says the second 10 minute break is Halfway between the meal break and the finish of the work period. Meal break finishes at 12:30pm. Shift ends at 4:30 pm. That's 4 hours, or 240 minutes. Subtracting 10 minutes from 240 minutes gives us 230 minutes of work time. Dividing 230 by 2 gives us 115 minutes either side of the 10 minute break. That means that the 10-minute break start 115 minutes after the end of the 30-minute break, and ends 115 minutes before the shift ends (or ends (115+10)= 125 minutes after the 30-minute break ended). 12:30 pm plus 115 minutes is 2:25 pm. 4:30pm minus 115 minutes is 2:35 pm. So the second 10-minute break starts at 2:25 pm and ends at 2:35 pm. Cool.
